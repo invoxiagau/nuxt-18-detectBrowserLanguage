@@ -1,11 +1,10 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   modules: ["@nuxtjs/i18n"],
   ssr: true,
   i18n: {
-    strategy: "prefix_except_default",
+    strategy: "prefix_except_default", // the issue is the same with 'prefix_and_default' strategy
     defaultLocale: "en",
     detectBrowserLanguage: {
       useCookie: true,
