@@ -1,16 +1,11 @@
-## Setup
-
-Install dependencies:
-
-```bash
-npm install
-```
+# Setup
 
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
+npm install
 npm run dev
 ```
 
@@ -19,13 +14,11 @@ npm run dev
 Build the Docker image
 
 ```bash
-chmod +x ./cloud-build
 . cloud-build
 ```
 
-Locally preview image, default on port 3000
+Locally preview image, default on port `8080`
 
 ```bash
-chmod +x cloud-run
 . cloud-run
 ```
