@@ -1,0 +1,64 @@
+#!/bin/bash
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    echo "cloud-run: script should be sourced"
+    exit 1
+fi
+
+IMAGE_REPOSITORY=${IMAGE_REPOSITORY:-i18n-locale-path}
+IMAGE_LOCAL_TAG=${IMAGE_LOCAL_TAG:-local}
+CONTAINER_NAME=${CONTAINER_NAME:-i18n-locale-path}
+HOST_PORT=${HOST_PORT:-3000}
+CONTAINER_PORT=${CONTAINER_PORT:-80}
+
+confirm() {
+    echo "Starting ${target} locally"
+
+    read -r -p "Are you sure? [y/N] " response
+    if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+        return 0
+    fi
+
+    echo
+    echo "aborted"
+    return 1
+}
+
+run_nuxt_app() {
+    echo
+    echo "${IMAGE_REPOSITORY}: starting container..."
+
+    docker rm -f "${CONTAINER_NAME}" >/dev/null 2>&1 || true
+
+    local env_args=()
+    if [[ -f .env ]]; then
+        env_args+=(--env-file .env)
+    fi
+
+    docker run \
+        --detach \
+        --restart unless-stopped \
+        --name "${CONTAINER_NAME}" \
+        -p "${HOST_PORT}:${CONTAINER_PORT}" \
+        "${env_args[@]}" \
+        "${IMAGE_REPOSITORY}:${IMAGE_LOCAL_TAG}"
+
+    docker ps --filter "name=${CONTAINER_NAME}"
+}
+
+if [[ "$#" -gt 1 ]]; then
+    echo "cloud-run: usage -> source cloud-run [app]"
+    return 1
+fi
+
+target=${1:-app}
+
+case "$target" in
+    app|www-site)
+        confirm && run_nuxt_app
+        ;;
+    *)
+        echo "cloud-run: unknown target '$target'"
+        return 1
+        ;;
+esac

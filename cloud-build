@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    echo "cloud-build: script should be sourced"
+    exit 1
+fi
+
+IMAGE_REPOSITORY=${IMAGE_REPOSITORY:-i18n-locale-path}
+IMAGE_TAG=${IMAGE_TAG:-latest}
+IMAGE_LOCAL_TAG=${IMAGE_LOCAL_TAG:-local}
+
+docker build --progress=plain --target production -t "${IMAGE_REPOSITORY}:${IMAGE_TAG}" .
+
+if [[ $? -eq 0 ]]; then
+    docker tag "${IMAGE_REPOSITORY}:${IMAGE_TAG}" "${IMAGE_REPOSITORY}:${IMAGE_LOCAL_TAG}"
+fi

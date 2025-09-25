@@ -1,0 +1,8 @@
+{
+  "nuxtLinkLocaleWithRouteName": "NuxtLinkLocale avec nom de route",
+  "nuxtLinkLocaleWithRoutePath": "NuxtLinkLocale avec chemin de route",
+  "nuxtLinkWithLocalePath": "NuxtLink avec localePath",
+  "plainHrefWithLocaleInPath": "Lien href simple avec locale dans le chemin",
+  "home": "Accueil",
+  "genericPage": "Page Générique"
+}
