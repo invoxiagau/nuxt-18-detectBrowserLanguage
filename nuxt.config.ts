@@ -7,11 +7,11 @@ export default defineNuxtConfig({
     strategy: "prefix_except_default", // the issue is the same with 'prefix_and_default' strategy
     defaultLocale: "en",
     detectBrowserLanguage: {
-      useCookie: true,
+      useCookie: true, // tried with false too
       cookieKey: "i18n_redirected",
       redirectOn: "root",
       fallbackLocale: "en",
-      alwaysRedirect: true,
+      alwaysRedirect: true, // tried with false too
     },
     locales: [
       { code: "en", name: "English", file: "en.json", config: "en" },
